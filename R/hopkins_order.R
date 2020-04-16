@@ -72,7 +72,8 @@ state_longer <-
 #Adds the election data from 2016
 state_longer_elections <-
   state_longer %>%
-  left_join(election_data, by = "state")
+  left_join(election_data, by = "state") %>% 
+  select(!7:12)
 
 
 

@@ -3,7 +3,7 @@ library(broom)
 library(patchwork)
 library(ggthemes)
 #Reading in the data (Sorry for the filepath)
-data <- read.csv(here::here("pdf_covid_data_election.csv"))                 
+data <- read.csv(here::here("data","raw","pdf_covid_data_election.csv"))                 
 
 #Cleaning up the names
 data <- 
@@ -149,12 +149,20 @@ data_pivot_state<-
     ) +
     facet_grid(~ activity))
 
-(state_plot <- ggplot(data_pivot_state, aes(reorder(state,mean),mean, fill = party)) +
-    geom_col() +
-    scale_x_discrete(label = abbreviate) +
-    labs(
-      title = "Overall Change by State",
-      x = ""
-    ) +
-    coord_fixed(.2)
-)
+ (
+   state_plot <-
+     ggplot(data_pivot_state, aes(reorder(state, mean), mean, fill = party)) +
+     geom_col() +
+     scale_x_discrete(label = abbreviate) +
+     labs(title = "Average Change of Activity",
+          subtitle ="Colored by 2016 Election Results (Popular)",
+          x = "State",
+          y = "Mean change",
+          fill = "Party") +
+     theme(
+       axis.text.x = element_blank(),
+       axis.ticks.x = element_blank()
+     )
+   # +
+   # coord_fixed(.2)
+ )
