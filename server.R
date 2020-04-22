@@ -1,22 +1,6 @@
 library(shiny)
-library(ggplot2)
-library(plotly)
-source(here::here("R","covid_source_file.R"))
 
-
-ui <- fluidPage(
-  
-  sidebarLayout(
-    
-    sidebarPanel(
-      checkboxGroupInput(inputId = "state_filter", "State",
-                         choices = unique(state_longer_elections$state), selected = c("Florida", "California"))
-    ),
-    
-    mainPanel(plotOutput("lineplot"))
-    
-  )
-)
+source("R/covid_source_file.R", local = TRUE)
 
 server <- function(input, output){
   
@@ -44,7 +28,3 @@ server <- function(input, output){
     
   }, height = 700, width = 1000)
 }
-
-shinyApp(ui = ui, server = server)
-
-

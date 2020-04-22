@@ -1,0 +1,10 @@
+name: covidstatedata
+title:
+username:
+account: wesley-g
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2163359
+bundleId: 3049083
+url: https://wesley-g.shinyapps.io/covidstatedata/
+when: 1587548886.01201
