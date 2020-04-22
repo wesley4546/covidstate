@@ -10,7 +10,7 @@ ui <- fluidPage(
     
     sidebarPanel(
       checkboxGroupInput(inputId = "state_filter", "State",
-                         choices = unique(state_longer_elections$state), selected = "Florida")
+                         choices = unique(state_longer_elections$state), selected = c("Florida", "California"))
     ),
     
     mainPanel(plotOutput("lineplot"))
@@ -42,7 +42,7 @@ server <- function(input, output){
     
     
     
-  }, height = 1000, width = 700)
+  }, height = 700, width = 1000)
 }
 
 shinyApp(ui = ui, server = server)
