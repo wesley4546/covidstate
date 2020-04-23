@@ -4,7 +4,8 @@ library(janitor)
 library(lubridate)
 library(stringr)
 library(patchwork)
-
+library(ggplot2)
+library(grid)
 
 # Importing Data ----------------------------------------------------------
 
@@ -81,3 +82,7 @@ state_longer_elections <-
   state_longer %>%
   left_join(election_data, by = "state") %>% 
   select(!7:12)
+
+state_longer_elections <- 
+  state_longer_elections %>% 
+  mutate(scaled_deaths_per_unit = scaled_deaths * 100000)
