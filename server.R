@@ -22,34 +22,44 @@ server <- function(input, output, session) {
   
   #Retrieves max values in order to do labeling on ggplot graph
   toplabels <- reactive({
-    filterdata() %>%
+    data_to_label <- filterdata() %>%
       filter(scaled_deaths_per_unit == max(scaled_deaths_per_unit))
   })
   
-
-
+  
+  
   # Button Actions -----------------------------------------------------------------
   
   # reset_button action
   observeEvent(input$reset_button, {
-    updateCheckboxGroupInput(session, "state_filter", selected = c("Florida", "California"))
+    updateCheckboxGroupInput(session, "state_filter", selected = c("Florida", "New York"))
+    updateCheckboxInput(session, "label_button", value = TRUE)
   })
   
   # all_democrat_button action
   observeEvent(input$all_democrat_button, {
     updateCheckboxGroupInput(session, "state_filter", selected = unique(c(state_longer_elections %>% 
-                                                                     filter(party == "democrat"))$state))
+                                                                            filter(party == "democrat"))$state))
+    updateCheckboxInput(session, "label_button", value = FALSE)
   })
   # all_republican_button action
   observeEvent(input$all_republican_button, {
     updateCheckboxGroupInput(session, "state_filter", selected = unique(c(state_longer_elections %>% 
                                                                             filter(party == "republican"))$state))
+    updateCheckboxInput(session, "label_button", value = FALSE)
+  })
+  
+  # all_state_button action
+  observeEvent(input$all_state_button, {
+    updateCheckboxGroupInput(session, "state_filter", selected = unique(state_longer_elections$state))
+    updateCheckboxInput(session, "label_button", value = FALSE )
   })
   
   # Outputs -----------------------------------------------------------------
   
   output$lineplot <- renderPlot({
-    #Main graph
+    
+    # Main graph
     p <- ggplot(
       filterdata(),
       aes(
@@ -70,11 +80,12 @@ server <- function(input, output, session) {
         legend.position = "bottom",
         plot.margin = unit(c(.5, 5, 1, 1), "cm") # Margins big so theres no cutoff
       ) +
-    geom_line() +
-    geom_point()
+      geom_line() +
+      geom_point()
     
-   if(input$label_button == TRUE){
-   p <- p + geom_label_repel( #This allows the labeling of the states
+    # label_button logical expression
+    if(input$label_button == TRUE){
+      p <- p + geom_label_repel( # This allows the labeling of the states
         data = toplabels(),
         aes(
           x = daycount,
@@ -84,8 +95,11 @@ server <- function(input, output, session) {
         ), 
         xlim = c((max(toplabels()$daycount) + 2.5), (max(toplabels()$daycount) + 2.5)), #This offsets the labels
         show.legend = FALSE)
-   }
+    }
 
+    if(input$facet_button == TRUE){
+      p <- p + facet_wrap(~party)
+    }
     
     #This allows for clipping of labels outside of plot
     gt <- ggplotGrob(p)

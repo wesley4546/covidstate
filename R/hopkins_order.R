@@ -16,13 +16,13 @@ toplabels <-
   filterdata %>% 
   filter(scaled_deaths_per_unit == max(scaled_deaths_per_unit))
 
-ggplot(
+p <-ggplot(
   filterdata,
   aes(
-    x = filterdata$daycount,
-    y = filterdata$scaled_deaths,
+    x = daycount,
+    y = scaled_deaths,
     color = factor(party, c("republican", "democrat")),
-    group = filterdata$state,
+    group = state,
   )
 ) +
   labs(
