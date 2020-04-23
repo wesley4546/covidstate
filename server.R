@@ -26,14 +26,25 @@ server <- function(input, output, session) {
       filter(scaled_deaths_per_unit == max(scaled_deaths_per_unit))
   })
   
-  
-  # Buttons -----------------------------------------------------------------
-  
-  # Reset Filter Button
-  observeEvent(input$reset_filter, {
-    updateCheckboxGroupInput(session, "state_filter", selected= c("Florida", "California"))
-  })
 
+
+  # Button Actions -----------------------------------------------------------------
+  
+  # reset_button action
+  observeEvent(input$reset_button, {
+    updateCheckboxGroupInput(session, "state_filter", selected = c("Florida", "California"))
+  })
+  
+  # all_democrat_button action
+  observeEvent(input$all_democrat_button, {
+    updateCheckboxGroupInput(session, "state_filter", selected = unique(c(state_longer_elections %>% 
+                                                                     filter(party == "democrat"))$state))
+  })
+  # all_republican_button action
+  observeEvent(input$all_republican_button, {
+    updateCheckboxGroupInput(session, "state_filter", selected = unique(c(state_longer_elections %>% 
+                                                                            filter(party == "republican"))$state))
+  })
   
   # Outputs -----------------------------------------------------------------
   
@@ -59,7 +70,11 @@ server <- function(input, output, session) {
         legend.position = "bottom",
         plot.margin = unit(c(.5, 5, 1, 1), "cm") # Margins big so theres no cutoff
       ) +
-      geom_label_repel( #This allows the labeling of the states
+    geom_line() +
+    geom_point()
+    
+   if(input$label_button == TRUE){
+   p <- p + geom_label_repel( #This allows the labeling of the states
         data = toplabels(),
         aes(
           x = daycount,
@@ -68,10 +83,9 @@ server <- function(input, output, session) {
           group = state, 
         ), 
         xlim = c((max(toplabels()$daycount) + 2.5), (max(toplabels()$daycount) + 2.5)), #This offsets the labels
-        show.legend = FALSE
-      ) +
-      geom_line() +
-      geom_point()
+        show.legend = FALSE)
+   }
+
     
     #This allows for clipping of labels outside of plot
     gt <- ggplotGrob(p)
