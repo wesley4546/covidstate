@@ -5,7 +5,7 @@ source("R/covid_source_file.R", local = TRUE)
 
 ui <- fluidPage(
   h1("COVID-19 Death Tracker"),
-  h5(paste("Last Updated:",format(Sys.time(), "%a %b %d %X %Y"))),
+  h5(paste("Last Updated:",format(Sys.time(), "%A %B %d, %Y"))),
   sidebarLayout(
     sidebarPanel(
       checkboxGroupInput(
