@@ -9,14 +9,19 @@ server <- function(input, output, session) {
   
   # Variables ---------------------------------------------------------------
   
+  main_data <-reactive({
+    state_longer_elections
+  })
+  
+  
   # Creates variable for selected states 
   states_selected <- reactive({
     input$state_filter
   })
   
-  #Filters state_longer_elections to the states selected from UI
+  #Filters main_data to the states selected from UI
   filterdata <- reactive({
-    state_longer_elections %>%
+    main_data() %>%
       filter(state %in% states_selected())
   })
   
@@ -99,6 +104,7 @@ server <- function(input, output, session) {
     # facet_button logical expression
     if(input$facet_button == TRUE){
       p <- p + facet_wrap(~party)
+      updateCheckboxInput(session, "label_button", value = FALSE)
     }
     
     #This allows for clipping of labels outside of plot
@@ -107,6 +113,13 @@ server <- function(input, output, session) {
     grid.draw(gt)
     
     
+    
+    output$downloadData <- downloadHandler(
+      filename = paste("covid_death_state_election", ".csv", sep = ""),
+      content = function(file) {
+        write.csv(main_data(), file, row.names = FALSE)
+      }
+    )
     
   }, height = 700, width = 1000)
 }
