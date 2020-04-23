@@ -96,7 +96,7 @@ server <- function(input, output, session) {
         xlim = c((max(toplabels()$daycount) + 2.5), (max(toplabels()$daycount) + 2.5)), #This offsets the labels
         show.legend = FALSE)
     }
-
+    # facet_button logical expression
     if(input$facet_button == TRUE){
       p <- p + facet_wrap(~party)
     }
