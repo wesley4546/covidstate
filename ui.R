@@ -13,8 +13,9 @@ ui <- fluidPage(
     This is a ShinyApp that is made to interact with the COVID-19's deaths per 100,000 people in the U.S by state colored by results
     of the 2016 Presidential Election results by popular vote.
     "),
-  p("GitHub:", a(href="https://github.com/wesley4546/covidstate",target="_blank", "https://github.com/wesley4546/covidstate")),
-  
+  br(),
+  p("Feel free to raise an issue on Github:", a(href="https://github.com/wesley4546/covidstate",target="_blank", "https://github.com/wesley4546/covidstate")),
+  p("Or email me at wesley.gardiner4546@gmail.com with any questions/comments/concerns"),
   
   
   
