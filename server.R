@@ -62,9 +62,9 @@ server <- function(input, output, session) {
   
   # Outputs -----------------------------------------------------------------
   
+  
+  # lineplot 
   output$lineplot <- renderPlot({
-    
-    # Main graph
     p <- ggplot(
       filterdata(),
       aes(
@@ -113,7 +113,7 @@ server <- function(input, output, session) {
     grid.draw(gt)
     
     
-    
+    #downloadData Button action
     output$downloadData <- downloadHandler(
       filename = paste("covid_death_state_election", ".csv", sep = ""),
       content = function(file) {
@@ -121,5 +121,13 @@ server <- function(input, output, session) {
       }
     )
     
+    output$summary <- renderPrint({
+      summary(filterdata())
+      })
+    
+    output$table <- renderTable({
+      filterdata()
+    })
+
   }, height = 700, width = 1000)
 }

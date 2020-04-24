@@ -23,7 +23,11 @@ ui <- fluidPage(
   # sidebarLayout ----------------------------------------------------------
   h4("Control Panel"),
   sidebarLayout(
+    
     sidebarPanel(
+      
+      # Filter by section -------------------------------------------------------
+      
       p("Filter by"),
       # Creates checkboxes for state filter
       checkboxGroupInput(
@@ -33,6 +37,10 @@ ui <- fluidPage(
         selected = c("Florida", "New York"),
         inline = TRUE
       ),
+      
+      
+      # Options section ---------------------------------------------------------
+      
       hr("Options"),
       # creates checkbox for labels of states
       checkboxInput(inputId = "label_button",
@@ -57,24 +65,33 @@ ui <- fluidPage(
       # all_state_button
       actionButton(inputId = "all_state_button", "Select All"),
       
+      
+      # Download Section --------------------------------------------------------
+      hr(),
+      #Download button for data
+      downloadButton("downloadData", "Download Full Dataset (.csv)"),
       #updated text
       h5(paste("Updated:", format(Sys.time(), "%A %B %d, %Y"))),
       
-      #Download button for data
-      downloadButton("downloadData", "Download Full Dataset (.csv)")
-    ),
-
-    mainPanel(plotOutput("lineplot"))
+    ), #End of sidebarPanel
     
-  ),
+    
+    # Main Panel --------------------------------------------------------------
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Plot", plotOutput("lineplot")),
+        tabPanel("Summary", verbatimTextOutput("summary")),
+        tabPanel("Table", tableOutput("table"))
+      )
+    )
+    
+  ), #End of sidebarLayout
   
-
-# Reference Section --------------------------------------------------------  
+  # Reference Section --------------------------------------------------------  
   hr(),
   h4("Where I got my data"),
   p("COVID-19 Data:", a(href="https://github.com/CSSEGISandData/COVID-19",target="_blank","https://github.com/CSSEGISandData/COVID-19")),
   
   p("State Population Data:", a(href="https://worldpopulationreview.com/states/",target="_blank","https://worldpopulationreview.com/states/")),
-
   
 )

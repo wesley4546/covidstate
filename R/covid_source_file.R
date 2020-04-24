@@ -83,6 +83,13 @@ state_longer_elections <-
   left_join(election_data, by = "state") %>% 
   select(!7:12)
 
+#Add's a scaled_deaths_per_unit column
 state_longer_elections <- 
   state_longer_elections %>% 
   mutate(scaled_deaths_per_unit = scaled_deaths * 100000)
+
+#formats date into date objects
+state_longer_elections <-
+  state_longer_elections %>% 
+  mutate(day = str_remove(day , "x"))
+
