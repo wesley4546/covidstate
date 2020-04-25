@@ -121,10 +121,12 @@ server <- function(input, output, session) {
       }
     )
     
+    #creates an output summary tab
     output$summary <- renderPrint({
       summary(filterdata())
       })
-    
+  
+    #creates an output table tab
     output$table <- renderTable({
       filterdata()
     })
