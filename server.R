@@ -28,7 +28,7 @@ server <- function(input, output, session) {
   #Retrieves max values in order to do labeling on ggplot graph
   toplabels <- reactive({
     data_to_label <- filterdata() %>%
-      filter(scaled_deaths_per_unit == max(scaled_deaths_per_unit))
+      filter(scaled_deaths_density == max(scaled_deaths_density))
   })
   
   
@@ -69,16 +69,16 @@ server <- function(input, output, session) {
       filterdata(),
       aes(
         x = daycount,
-        y = scaled_deaths_per_unit,
+        y = scaled_deaths_density,
         color = factor(party, c("republican", "democrat")),
         group = state,
       )
     ) +
       labs(
         title = "Deaths of COVID-19 by State" ,
-        subtitle = "Scaled to population of state - Colored by vote in 2016 Election (Popular)",
+        subtitle = "Scaled to State - Colored by vote in 2016 Election (Popular)",
         x = "Day Count",
-        y = "Deaths per 100,000 People"
+        y = "Deaths / Density of State"
       ) +
       theme(
         legend.title = element_blank(),
@@ -94,7 +94,7 @@ server <- function(input, output, session) {
         data = toplabels(),
         aes(
           x = daycount,
-          y = scaled_deaths_per_unit,
+          y = scaled_deaths_density,
           label = state,
           group = state, 
         ), 
