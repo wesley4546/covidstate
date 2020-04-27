@@ -69,10 +69,11 @@ election_state_graph <-
   ) +
   labs(
     title = "Deaths of COVID-19 from by State" ,
-    subtitle = "Scaled to population of state - Colored by vote in 2016 Election (Popular)",
+    subtitle = "Colored by vote in 2016 Election (Popular)",
     x = "Day Count",
     y = "Deaths / Density of State"
-  )
+  ) +
+  facet_wrap(~party)
 
 
 election_state_graph
