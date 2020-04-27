@@ -2,4 +2,4 @@
 
 Link to Shinyapp: https://wesley4546.shinyapps.io/covidstatedata/
 
-Link to [ttest_rmd](R/ttest_data_rmd.Rmd)
+Link to [ttest_rmd](R/ttest_data_rmd.html)
