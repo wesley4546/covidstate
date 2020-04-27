@@ -51,61 +51,31 @@ p <-ggplot(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #Graph of all states colored by party
 election_state_graph <-
   ggplot(
     state_longer_elections,
     aes(
       daycount,
-      scaled_deaths_per_unit,
+      scaled_deaths,
       color = factor(party, c("republican", "democrat")),
       group = state,
       label = state
     )
   ) +
-  geom_line(stat = "identity") +
+  geom_line() +
   theme(
     legend.title = element_blank(),
-    legend.position = "bottom",
-    plot.margin = unit(c(.5, 3.5, 1, 1), "cm")
   ) +
   labs(
-    title = "Deaths of COVID-19 from Janurary 1 to April 11 by State" ,
+    title = "Deaths of COVID-19 from by State" ,
     subtitle = "Scaled to population of state - Colored by vote in 2016 Election (Popular)",
     x = "Day Count",
-    y = "Deaths per 100,000 people"
-  ) +
-  geom_text(
-    data = subset(state_longer_elections, daycount == max(daycount)),
-    aes(label = state, x = Inf, y = scaled_deaths_per_unit),
-    hjust = 0
-  ) +
-  geom_point()
+    y = "Deaths / Density of State"
+  )
 
-gt <- ggplotGrob(election_state_graph)
-gt$layout$clip[gt$layout$name == "panel"] <- "off"
-grid.draw(gt)
 
+election_state_graph
 
 
 

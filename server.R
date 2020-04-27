@@ -14,7 +14,7 @@ server <- function(input, output, session) {
   })
   
   
-  # Creates variable for selected states 
+  # Creates variable for selected states
   states_selected <- reactive({
     input$state_filter
   })
@@ -101,6 +101,7 @@ server <- function(input, output, session) {
         xlim = c((max(toplabels()$daycount) + 2.5), (max(toplabels()$daycount) + 2.5)), #This offsets the labels
         show.legend = FALSE)
     }
+    
     # facet_button logical expression
     if(input$facet_button == TRUE){
       p <- p + facet_wrap(~party)
@@ -111,7 +112,6 @@ server <- function(input, output, session) {
     gt <- ggplotGrob(p)
     gt$layout$clip[gt$layout$name == "panel"] <- "off"
     grid.draw(gt)
-    
     
     #downloadData Button action
     output$downloadData <- downloadHandler(

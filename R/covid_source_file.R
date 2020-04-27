@@ -74,8 +74,8 @@ state_longer <-
   state_longer %>%
   filter(deaths >= 1) %>%
   left_join(pop_data, by = "state") %>%
-  select(state, day, deaths, daycount, pop) %>%
-  mutate(scaled_deaths= deaths / pop)
+  select(state, day, deaths, daycount, density) %>%
+  mutate(scaled_deaths= deaths / density)
 
 #Adds the election data from 2016
 state_longer_elections <-
@@ -86,7 +86,7 @@ state_longer_elections <-
 #Add's a scaled_deaths_per_unit column
 state_longer_elections <- 
   state_longer_elections %>% 
-  mutate(scaled_deaths_per_unit = scaled_deaths * 100000)
+  mutate(scaled_deaths_density = scaled_deaths)
 
 #formats date into date objects
 state_longer_elections <-
