@@ -5,8 +5,8 @@ account: wesley-g
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2163359
-bundleId: 3073849
+bundleId: 3074831
 url: https://wesley4546.shinyapps.io/covidstatedata/
-when: 1588020549.51789
+when: 1588038920.57675
 asMultiple: FALSE
 asStatic: FALSE
