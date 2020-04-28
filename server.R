@@ -28,7 +28,7 @@ server <- function(input, output, session) {
   #Retrieves max values in order to do labeling on ggplot graph
   toplabels <- reactive({
     data_to_label <- filterdata() %>%
-      filter(scaled_deaths_density == max(scaled_deaths_density))
+      filter(daycount == max(daycount))
   })
   
   

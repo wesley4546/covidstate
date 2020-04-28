@@ -148,8 +148,12 @@ data_pivot_state<-
     ) +
     facet_grid(~ activity))
 
- (
-   state_plot <-
+ data_pivot_state <- 
+ data_pivot_state %>% 
+   filter(!state %in% c("Alaska", "Arizona"))
+ 
+ 
+ (   state_plot <-
      ggplot(data_pivot_state, aes(reorder(state, mean), mean, fill = party)) +
      geom_col() +
      scale_x_discrete(label = abbreviate) +
@@ -158,10 +162,7 @@ data_pivot_state<-
           x = "State",
           y = "Mean change",
           fill = "Party") +
-     theme(
-       axis.text.x = element_blank(),
-       axis.ticks.x = element_blank()
-     )
+     theme(axis.text.x = element_text(angle = 90, hjust = 1))
    # +
    # coord_fixed(.2)
  )

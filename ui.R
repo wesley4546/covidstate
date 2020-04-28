@@ -10,7 +10,7 @@ ui <- fluidPage(
   # Body --------------------------------------------------------------------
   h3("Overview"),
   p("
-    This is a ShinyApp that is made to interact with the COVID-19's deaths divied by the denstiy of state in the U.S. The states are colored by results
+    This is a ShinyApp that is made to interact with the COVID-19's deaths divied by the density of state in the U.S. The states are colored by results
     of the 2016 Presidential Election results by popular vote.
     "),
   br(),
