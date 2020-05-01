@@ -1,4 +1,4 @@
-#Data File
+# This script is used for sourcing data into the shinyapp
 library(tidyverse)
 library(janitor)
 library(lubridate)
@@ -14,10 +14,11 @@ url_to_covidgithub_cases <- "https://raw.githubusercontent.com/CSSEGISandData/CO
 url_to_covidgithub_deaths <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv"
 
 #read_csv's the files in data
-time_data <- read_csv(url_to_covidgithub_deaths)
+time_data <- read_csv(url_to_covidgithub_cases)
 state_order <- read_csv(here::here("data", "raw", "state_order.csv"))
 pop_data <- read_csv(here::here("data", "raw", "state_population_data.csv"))
 election_data <- read_csv(here::here("data", "raw", "pdf_covid_data_election.csv"))
+
 
 # Cleaning Data -----------------------------------------------------------
 
@@ -70,6 +71,13 @@ state_longer <-
   mutate(daycount = daycount - 1) #Have to make it actually the day (I dont know a better way)
 
 #Filters out when cases are 0, adds the population data, creates a column for scaled_deaths
+state_longer_0day <-
+  state_longer %>%
+  left_join(pop_data, by = "state") %>%
+  select(state, day, deaths, daycount, density) %>%
+  mutate(scaled_deaths= deaths / density)
+
+
 state_longer <-
   state_longer %>%
   filter(deaths >= 1) %>%
@@ -78,17 +86,31 @@ state_longer <-
   mutate(scaled_deaths= deaths / density)
 
 #Adds the election data from 2016
+state_longer_elections_0day <-
+  state_longer_0day %>%
+  left_join(election_data, by = "state") %>% 
+  select(!7:12) #removes the election_data columns that are not needed
+
 state_longer_elections <-
   state_longer %>%
   left_join(election_data, by = "state") %>% 
-  select(!7:12)
+  select(!7:12) #removes the election_data columns that are not needed
 
 #Add's a scaled_deaths_per_unit column
+
+state_longer_elections_0day <- 
+  state_longer_elections_0day %>% 
+  mutate(scaled_deaths_density = scaled_deaths)
+
 state_longer_elections <- 
   state_longer_elections %>% 
   mutate(scaled_deaths_density = scaled_deaths)
 
 #formats date into date objects
+state_longer_elections_0day <-
+  state_longer_elections_0day %>% 
+  mutate(day = str_remove(day , "x"))
+
 state_longer_elections <-
   state_longer_elections %>% 
   mutate(day = str_remove(day , "x"))

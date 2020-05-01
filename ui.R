@@ -3,7 +3,10 @@ library(shiny)
 #Sources data file
 source("R/covid_source_file.R", local = TRUE)
 
-ui <- fluidPage(
+ui <- navbarPage("My Application", 
+  
+  tabPanel("US States"),
+  fluidPage(
   # Header ------------------------------------------------------------------
   titlePanel("COVID-19 | Deaths Over Time in the U.S."),
   
@@ -94,5 +97,5 @@ ui <- fluidPage(
   p("COVID-19 Data:", a(href="https://github.com/CSSEGISandData/COVID-19",target="_blank","https://github.com/CSSEGISandData/COVID-19")),
   
   p("State Population Data:", a(href="https://worldpopulationreview.com/states/",target="_blank","https://worldpopulationreview.com/states/")),
-  
+  )
 )
